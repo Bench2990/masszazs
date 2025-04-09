@@ -1,0 +1,51 @@
+<section class="pricelist-section">
+
+  <mat-card class="price-card">
+    <mat-card-title>Árlista</mat-card-title>
+
+    <table mat-table [dataSource]="priceData" class="mat-elevation-z2 full-width-table">
+
+      <ng-container matColumnDef="service">
+        <th mat-header-cell *matHeaderCellDef> Szolgáltatás </th>
+        <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price30">
+        <th mat-header-cell *matHeaderCellDef> 30 perc </th>
+        <td mat-cell *matCellDef="let element"> {{ element.price30 | number }} Ft </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price60">
+        <th mat-header-cell *matHeaderCellDef> 60 perc </th>
+        <td mat-cell *matCellDef="let element"> {{ element.price60 | number }} Ft </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['service', 'price30', 'price60']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['service', 'price30', 'price60']"></tr>
+    </table>
+  </mat-card>
+
+  <mat-card class="price-card">
+    <mat-card-title>Bérlet árak (minden szolgáltatásra érvényes)</mat-card-title>
+
+    <div class="pass-list">
+      <h3>30 perces kezelések</h3>
+<div class="price-list">
+  <mat-card class="price-line" *ngFor="let item of thirtyMinutePasses">
+    {{ item }}
+  </mat-card>
+</div>
+
+<h3>60 perces kezelések</h3>
+<div class="price-list">
+  <mat-card class="price-line" *ngFor="let item of sixtyMinutePasses">
+    {{ item }}
+  </mat-card>
+</div>
+
+      <p class="note">A bérletek nem átruházhatók és a vásárlástól számított 1 évig érvényesek.</p>
+    </div>
+  </mat-card>
+</section>
+
+  

@@ -1,0 +1,30 @@
+<section class="services-section">
+  <h1>Szolgáltatásaink</h1>
+
+  <mat-card class="service-card" *ngFor="let service of services">
+    <mat-card-title>{{ service.title }}</mat-card-title>
+    <mat-card-content>
+      <p>{{ service.description }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="contra-card">
+    <mat-card-title>
+      ⚠ Masszázs, testkezelések kontraindikációi (ellenjavallatai)
+    </mat-card-title>
+    <mat-card-content>
+      <p>
+        A masszázsterápia számos pozitív hatással bír, de bizonyos esetekben
+        nem ajánlott. Kérjük, figyelmesen olvassa el az alábbi felsorolást:
+      </p>
+      <ul class="contra-list">
+        <li *ngFor="let item of contraindications">
+          {{ item }}
+        </li>
+      </ul>
+      
+    </mat-card-content>
+  </mat-card>
+</section>
+
+  

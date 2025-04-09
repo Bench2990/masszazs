@@ -1,0 +1,66 @@
+<div class="booking-container">
+    <h2>Időpontfoglalás</h2>
+  
+    <div class="form-group">
+      <label for="service">Masszázs típusa:</label>
+      <select id="service" [(ngModel)]="selectedService">
+        <option *ngFor="let service of services" [value]="service">{{ service }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group duration-checkbox">
+      <label><input type="checkbox" [(ngModel)]="is30min" (change)="selectDuration('30')"> 30 perc</label>
+      <label><input type="checkbox" [(ngModel)]="is60min" (change)="selectDuration('60')"> 1 óra</label>
+    </div>
+  
+    <div class="form-group">
+      <label for="name">Név:</label>
+      <input type="text" id="name" [(ngModel)]="client.name">
+    </div>
+  
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="client.email">
+    </div>
+  
+    <div class="form-group">
+      <label for="phone">Telefonszám:</label>
+      <input type="tel" id="phone" [(ngModel)]="client.phone">
+    </div>
+  
+    <div class="form-group">
+      <label><input type="checkbox" [(ngModel)]="client.visitedBefore"> Járt már nálunk?</label>
+    </div>
+  
+    <div class="calendar-scroll-container">
+        <div class="calendar-scroll-content">
+          <div class="day-card" *ngFor="let day of calendarDays">
+            <div class="day-header">
+              {{ day.date | date:'EEE, MMM d' }}
+            </div>
+            <div class="slots-grid">
+              <button
+                *ngFor="let slot of day.slots"
+                [class.booked]="slot.booked"
+                [class.selected]="slot === selectedSlot"
+                (click)="selectSlot(slot)"
+                [disabled]="slot.booked"
+              >
+                {{ slot.time }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  
+    
+    <div class="form-group">
+      <button class="booking-button" (click)="submitBooking()" [disabled]="!isBookingValid()">Foglalás</button>
+    </div>
+  
+    <div *ngIf="bookingSuccess" class="success-message">
+      Sikeres foglalás! Átirányítás a profil oldalra...
+    </div>
+  </div>
+  

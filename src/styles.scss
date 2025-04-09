@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+
+
+  html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+  
+  .mat-mdc-button,
+  .mat-mdc-icon-button,
+  .mat-mdc-raised-button,
+  .mat-mdc-fab,
+  .mat-mdc-card-title,
+  .mat-mdc-card-content,
+  .mat-mdc-list-item,
+  .mat-mdc-cell,
+  .mat-mdc-header-cell,
+  .mat-mdc-list-item,
+  label {
+    color: #634630 !important;
+    
+  }
+ 
+
+  
