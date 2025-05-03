@@ -1,0 +1,59 @@
+.login-container {
+    max-width: 400px;
+    margin: 3rem auto;
+    background-color: #fefaf7;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    color: #4a2f1b;
+  
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: #5a3c2b;
+    }
+  
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      color: black;
+      gap: 1.2rem;
+        
+      mat-form-field {
+        width: 100%;
+      }
+  
+      button {
+        font-weight: 600;
+        margin-top: 0.5rem;
+        background-color: #8b5e3c;
+        color: white;
+        &:last-of-type {
+          margin-top: 0.3rem;
+        }
+      }
+    }
+  
+    .error-message {
+      color: #c0392b;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+  
+    .loading-container {
+      text-align: center;
+  
+      h2 {
+        margin-bottom: 1rem;
+        color: #5c3c2b;
+      }
+  
+      p {
+        margin-top: 1rem;
+        font-style: italic;
+      }
+    }
+
+  }
+  

@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [
     RouterOutlet,
     MatSidenavModule,
@@ -23,10 +24,26 @@ import { RouterLink } from '@angular/router';
 })
 export class AppComponent {
   title = 'masszazs';
+  isLoggedIn = false;
 
-  onToggleSidenav(sidenav: MatSidenav){
+  constructor() {}
+
+  ngOnInit(): void {
+    this.checkLoginStatus();
+  }
+
+  checkLoginStatus(): void {
+    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  }
+
+  logout(): void {
+    localStorage.setItem('isLoggedIn', 'false');
+    this.isLoggedIn = false;
+    window.location.href = '/home';
+  }
+
+  onToggleSidenav(sidenav: MatSidenav) {
     sidenav.toggle();
-  } 
-
-  
+  }
 }
+

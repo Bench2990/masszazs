@@ -17,6 +17,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: #634630 !important;
     
   }
+  :root {
+    --mat-form-field-outline-color: #8b5e3c;
+    --mat-form-field-label-color: #8b5e3c;
+    --mat-input-color: #3e2a1b;
+  }
  
 
   

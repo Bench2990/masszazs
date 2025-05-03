@@ -5,6 +5,8 @@ import { PricelistComponent } from './pages/pricelist/pricelist.component';
 import { BookingComponent } from './pages/booking/booking.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegistComponent } from './pages/regist/regist.component';
 
 export const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -12,6 +14,9 @@ export const appRoutes: Routes = [
   { path: 'pricelist', component: PricelistComponent },
   { path: 'booking', component: BookingComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'regist', component: RegistComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
+  
 ];
