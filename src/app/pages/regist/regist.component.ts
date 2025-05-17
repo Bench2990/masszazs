@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../shared/services/auth.service';
 import { User } from '../../shared/models/User';
 
 @Component({
@@ -26,18 +27,24 @@ import { User } from '../../shared/models/User';
   styleUrl: './regist.component.scss'
 })
 export class RegistComponent {
+
   signUpForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(2)]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{9,15}$')]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
+
+
 
   isLoading = false;
   showForm = true;
   signupError = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   signup(): void {
     if (this.signUpForm.invalid) {
@@ -48,18 +55,41 @@ export class RegistComponent {
     this.isLoading = true;
     this.showForm = false;
 
-    const newUser: User = {
+    const userData: Partial<User> = {
       name: this.signUpForm.value.name || '',
       email: this.signUpForm.value.email || '',
-      password: this.signUpForm.value.password || '',
-      phone: this.signUpForm.value.phone || '',
-    }
-    console.log('Regisztrált felhasználó:', newUser);
-    console.log('Form value:', this.signUpForm.value);
+      phone: this.signUpForm.value.phone || ''
+    };
 
-    setTimeout(() => {
-      this.router.navigateByUrl('/home');
-    }, 2000);
+    const email = this.signUpForm.value.email || '';
+    const pw = this.signUpForm.value.password || '';
+
+    this.authService.signUp(email, pw, userData)
+      .then(userCredential => {
+        console.log('Sikeres regisztráció:', userCredential.user);
+        this.authService.updateLoginStatus(true);
+        this.router.navigateByUrl('/home');
+      })
+      .catch(error => {
+        console.error('Regisztrációs hiba:', error);
+        this.isLoading = false;
+        this.showForm = true;
+
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            this.signupError = 'Ez az email cím már regisztrálva van.';
+            break;
+          case 'auth/invalid-email':
+            this.signupError = 'Érvénytelen email cím.';
+            break;
+          case 'auth/weak-password':
+            this.signupError = 'A jelszó túl gyenge. Minimum 6 karakter.';
+            break;
+          default:
+            this.signupError = 'Ismeretlen hiba történt. Próbáld újra később.';
+        }
+      });
   }
 }
+
 

@@ -2,51 +2,45 @@
   <h2>Profilom</h2>
 
   <div *ngIf="user">
-    <div class="profile-form" *ngIf="user?.name || user?.email || user?.phone">
+    <div class="profile-form">
       <label>
         Név:
-        <input type="text" [(ngModel)]="user.name" (ngModelChange)="onEdit()" />
+        <input type="text" [value]="user.name" disabled />
       </label>
       <label>
         Email:
-        <input type="email" [(ngModel)]="user.email" (ngModelChange)="onEdit()" />
+        <input type="email" [value]="user.email" disabled />
       </label>
       <label>
         Telefonszám:
-        <input type="tel" [(ngModel)]="user.phone" (ngModelChange)="onEdit()" />
+        <input type="tel" [value]="user.phone" disabled />
       </label>
-  
-      <button *ngIf="showSaveButton" (click)="saveChanges()" class="save-button">
-        Változtatások mentése
-      </button>
     </div>
   </div>
-  
 
   <div class="bookings-section">
     <h3>Aktuális foglalásaid</h3>
-  
+
     <p *ngIf="bookings.data.length === 0">Jelenleg nincs foglalásod.</p>
-  
+
     <table mat-table [dataSource]="bookings" class="mat-elevation-z2" *ngIf="bookings.data.length > 0">
-  
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef> Dátum </th>
         <td mat-cell *matCellDef="let b"> {{ b.date | date:'fullDate':'':'hu' }} </td>
       </ng-container>
-  
+
       <ng-container matColumnDef="time">
         <th mat-header-cell *matHeaderCellDef> Időpont </th>
         <td mat-cell *matCellDef="let b"> {{ b.time }} </td>
       </ng-container>
-  
+
       <ng-container matColumnDef="service">
         <th mat-header-cell *matHeaderCellDef> Szolgáltatás </th>
         <td mat-cell *matCellDef="let b">
           {{ b.service }} – {{ b.duration | durationFormat }}
         </td>
       </ng-container>
-  
+
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> </th>
         <td mat-cell *matCellDef="let row; let i = index">
@@ -55,12 +49,17 @@
           </button>
         </td>
       </ng-container>
-  
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
 </div>
+
+
+
+
+
 
 
   

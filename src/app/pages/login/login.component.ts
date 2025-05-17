@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../shared/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -34,31 +36,60 @@ export class LoginComponent {
   isLoading = false;
   loginError = '';
   showLoginForm = true;
+  authSubscription?: Subscription;
 
-  constructor(private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router
+  ) {}
 
-  login(): void {
-    this.loginError = '';
-
-    if (this.email.invalid || this.password.invalid) {
-      this.loginError = 'Kérlek, tölts ki minden mezőt érvényesen!';
+  login() {
+    if (this.email.invalid) {
+      this.loginError = 'Kérjük adjon meg érvényes e-mail címet!';
+      return;
+    }
+    
+    if (this.password.invalid) {
+      this.loginError = 'A jelszónak legalább 6 karakterből kell állnia!';
       return;
     }
 
-    const email = this.email.value;
-    const pw = this.password.value;
+    const emailValue = this.email.value || '';
+    const passwordValue = this.password.value || '';
+    
+    this.isLoading = true;
+    this.showLoginForm = false;
+    this.loginError = '';
 
-    if (email === 'test@gmail.com' && pw === 'testpw') {
-      this.isLoading = true;
-      this.showLoginForm = false;
-
-      localStorage.setItem('isLoggedIn', 'true');
-
-      setTimeout(() => {
-        this.router.navigate(['/home']);
-      }, 2500);
-    } else {
-      this.loginError = 'Helytelen email vagy jelszó!';
-    }
+    this.authService.signIn(emailValue, passwordValue)
+      .then(userCredential => {
+        console.log('Login successful:', userCredential.user);
+        this.authService.updateLoginStatus(true);
+        this.router.navigateByUrl('/home');
+      })
+      .catch(error => {
+        console.error('Login error:', error);
+        this.isLoading = false;
+        this.showLoginForm = true;
+        
+        switch(error.code) {
+          case 'auth/user-not-found':
+            this.loginError = 'Még nincs regisztrálva ez az e-mail cím!';
+            break;
+          case 'auth/wrong-password':
+            this.loginError = 'Helytelen e-mail cím vagy jelszó!';
+            break;
+          case 'auth/invalid-credential':
+            this.loginError = 'Helytelen e-mail cím vagy jelszó!';
+            break;
+          default:
+            this.loginError = 'Hiba a bejelentkezésnél';
+        }
+      });
   }
+
+  ngOnDestroy() {
+    this.authSubscription?.unsubscribe();
+  }
+  
 }
